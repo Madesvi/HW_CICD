@@ -1,0 +1,23 @@
+name: Deploy to K3s
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Deploy to K3s
+      env:
+        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+      run: |
+        mkdir -p ~/.kube
+        echo "$KUBE_CONFIG" > ~/.kube/config
+        kubectl apply -f .k3s/hello-world/
