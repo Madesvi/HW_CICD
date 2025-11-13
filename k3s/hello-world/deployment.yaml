@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-svirin
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hello-svirin
+  template:
+    metadata:
+      labels:
+        app: hello-svirin
+    spec:
+      containers:
+      - name: hello-svirin
+        image: hello-svirin:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 30757
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
